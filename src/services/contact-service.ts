@@ -4,6 +4,14 @@ import {
   selectAllContacts,
   selectContactById,
 } from "../repositories/contact-repository";
+import { v4 as uuidv4 } from "uuid";
+
+export function getToken() {
+  const token = uuidv4();
+  return {
+    token: token + "1",
+  };
+}
 
 export async function getAllContacts() {
   const contacts = await selectAllContacts();

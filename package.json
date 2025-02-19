@@ -9,7 +9,7 @@
     "migration:run": "prisma migrate deploy",
     "seed": "prisma db seed",
     "test:load-envs": "dotenv -e .env.test",
-    "test": "npm run test:load-envs jest --runInBand",
+    "test": "npm run test:load-envs -- jest -- --runInBand",
     "test:coverage": "npm run test:load-envs -- jest -- --coverage --runInBand",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy"
   },
@@ -43,6 +43,7 @@
     "httpstatus": "^1.0.0",
     "joi": "^17.13.3",
     "pg": "^8.13.1",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "uuid": "^11.1.0"
   }
 }
