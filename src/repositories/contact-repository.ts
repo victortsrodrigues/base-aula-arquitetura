@@ -87,3 +87,10 @@ export async function selectContactById(id: number) {
   });
   return contact;
 }
+
+export async function selectContactByFullname(fullname: string) {
+  const contact = await prisma.contact.findFirst({
+    where: { fullname },
+  });
+  return contact;
+}

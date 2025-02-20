@@ -1,6 +1,11 @@
 import * as contactRepository from "../../src/repositories/contact-repository";
 import prisma from "../../src/database";
-import { getAllContacts, getToken } from "../../src/services/contact-service";
+import {
+  createContact,
+  getAllContacts,
+  getContact,
+  getToken,
+} from "../../src/services/contact-service";
 
 // beforeEach(async () => {
 //   await prisma.phone.deleteMany();
@@ -72,4 +77,36 @@ describe("Contacts Service Unit Testing", () => {
   //   const token = getToken();
   //   expect(token).toEqual({ token: "token1" });
   // });
+
+  it("should throw an error when contact not found by id", () => {
+    jest
+      .spyOn(contactRepository, "selectContactById")
+      .mockResolvedValueOnce(null);
+    const promise = getContact(1);
+    expect(promise).rejects.toEqual({
+      message: "Contact not found",
+      type: "not_found",
+    });
+  });
+
+  it("should return an error when fullname is already registered", () => {
+    jest
+      .spyOn(contactRepository, "selectContactByFullname")
+      .mockResolvedValueOnce({
+        id: 1,
+        fullname: "teste",
+        email: "teste@example.com",
+        favorite: false,
+      });
+
+    const promise = createContact({
+      fullname: "teste",
+      phones: ["123123123"],
+    });
+
+    expect(promise).rejects.toEqual({
+      message: "Contact already registered",
+      type: "conflict",
+    });
+  });
 });
